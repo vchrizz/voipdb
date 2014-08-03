@@ -1,29 +1,17 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+{% autoescape on %}{% load static %}<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
-
 <head>
-	{% load static %}
 	<link rel="stylesheet" type="text/css" href="{% get_static_prefix %}voip/style.css" />
-	<!-- <link rel="stylesheet" type="text/css" media="screen" href="./css/main.css"/> -->
 	<script language="JavaScript" src="{% get_static_prefix %}voip/main.js"></script>
 	<title>Funkfeuer VoIP - {% block title %}Funkfeuer VoIP Database Frontend{% endblock %}</title>
 	<script src="{% get_static_prefix %}voip/jquery-1.11.1.min.js"></script>
 	<script src="{% get_static_prefix %}voip/tablesorter/jquery.tablesorter.js"></script>
 </head>
-
-{% autoescape on %}
-<body>
-{% if request.user %}
+<body>{% if request.user %}
 	<div id="menu">
 		<a href="/">Hauptseite</a> | <a href="/userinfo/">Benutzerdaten</a> | <a href="https://marvin.funkfeuer.at/frontend_wien/index.php?section=nodes&id_members={{ member.id }}">Nodes</a> | <a href="/extensions/">VoIP</a> | <a href="/phonebook/">Phonebook</a>  | <a href="/logout/">Logoff</a>
-<!--
-		<a href="/">Hauptseite</a> | <a href="/userinfo/">Benutzerdaten</a> | <a href="https://marvin.funkfeuer.at/frontend_wien/">Nodes</a> | <a href="/extensions/">VoIP</a> | <a href="/phonebook/">Phonebook</a>  | <a href="/logout/">Logoff</a>
--->
 	</div>
-	<hr/>
-{% endif %}
-{% block content %}{% endblock %}
-	<div class=footer>&copy;2014 <a href="http://sourceforge.net/p/redeemer">redeemer.frontend</a> + <a href="https://gitorious.org/0xff_frontend/frontend">0xff mods</a></div>
+	<hr/>{% endif %}{% block content %}{% endblock %}	<div class=footer>&copy;2014 <a href="http://sourceforge.net/p/redeemer">redeemer.frontend</a> + <a href="https://gitorious.org/0xff_frontend/frontend">0xff mods</a></div>
 </body>
-{% endautoescape %}
 </html>
+{% endautoescape %}

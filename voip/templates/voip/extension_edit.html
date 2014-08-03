@@ -1,144 +1,31 @@
-{% extends "voip/base.html" %}
-{% block title %}Extension edit{% endblock %}
-{% block content %}
-
-{% if form.voicemail_pin.errors %}
-  Fehleingabe bei Voicemail PIN: {{ form.voicemail_pin.errors }}
-{% endif %}
-{% if form.voicemail_delay.errors %}
-  Fehleingabe bei Voicemail Delay: {{ form.voicemail_delay.errors }}
-{% endif %}
-
-<form action="." method="post" name="update_voip_form" onsubmit="return verifyForm(this);">
-{% csrf_token %}
-
-<table>
- <tr>
-  <th align="right" valign="top">Voicemail</th>
-  <td>
-{% if extension.voicemail %}
-    <input type="checkbox" name="voicemail" checked />
-{% else %}
-  {% if request.voicemail %}
-    <input type="checkbox" name="voicemail" checked />
-  {% else %}
-    <input type="checkbox" name="voicemail" />
-  {% endif %}
-{% endif %}
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail PIN</th>
-  <td>
-{% if extension %}
-  <input type="text" name="voicemail_pin" size="20" value="{{ extension.voicemail_pin }}" />
-{% else %}
-  <input type="text" name="voicemail_pin" size="20" value="" />
-{% endif %}
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail Delay</th>
-  <td>
-{% if extension %}
-   <input type="text" name="voicemail_delay" size="20" value="{{ extension.voicemail_delay }}" />
-{% else %}
-   <input type="text" name="voicemail_delay" size="20" value="" />
-{% endif %}
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">E-Mail Notify</th>
-  <td>
-{% if extension.voicemail_emailnotify %}
-   <input type="checkbox" name="voicemail_emailnotify" checked />
-{% else %}
-   <input type="checkbox" name="voicemail_emailnotify" />
-{% endif %}
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Telefonbuch</th>
-  <td>
-{% if extension.phonebook %}
-   <input type="checkbox" name="phonebook" checked />
-{% else %}
-   <input type="checkbox" name="phonebook" />
-{% endif %}
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">&nbsp;</th>
-  <td>
-{% if extension %}
-   <input type="submit" name="submit" value="&Auml;ndern" />
-{% else %}
-   <input type="submit" name="submit" value="Hinzuf&uuml;gen" />
-{% endif %}
-  </td>
- </tr>
-</table>
-</form>
-
-<br><br><br><br><br><br><br><br>
-<hr>just testing:<hr>
-
-<form action="." method="post" name="update_voip_form" onsubmit="return verifyForm(this);">
-{% csrf_token %}
-{% if extension %}
-<table>
- <tr>
-  <th align="right" valign="top">Voicemail</th>
-  <td>{{ form.voicemail }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail PIN</th>
-  <td>{{ form.voicemail_pin }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail Delay</th>
-  <td>{{ form.voicemail_delay }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">E-Mail Notify</th>
-  <td>{{ form.voicemail_emailnotify }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Telefonbuch</th>
-  <td>{{ form.phonebook }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">&nbsp;</th>
-  <td><input type="submit" name="submit" value="&Auml;ndern" /></td>
- </tr>
-</table>
-{% else %}
-<table>
- <tr>
-  <th align="right" valign="top">Voicemail</th>
-  <td>{{ form.voicemail }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail PIN</th>
-  <td>{{ form.voicemail_pin }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Voicemail Delay</th>
-  <td>{{ form.voicemail_delay }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">E-Mail Notify</th>
-  <td>{{ form.voicemail_emailnotify }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">Telefonbuch</th>
-  <td>{{ form.phonebook }}</td>
- </tr>
- <tr>
-  <th align="right" valign="top">&nbsp;</th>
-  <td><input type="submit" name="submit" value="&Auml;ndern" /></td>
- </tr>
-</table>
-{% endif %}
-</form>
+{% extends "voip/base.html" %}{% block title %}Extension edit{% endblock %}{% block content %}{% if form.errors %}{{ form.errors }}{% endif %}
+	<form action="." method="post" name="update_voip_form" onsubmit="return verifyForm(this);">
+	{% csrf_token %}
+	<table>
+		<tr>
+			<th align="right" valign="top">Voicemail</th>
+			<td>{{ form.voicemail }}</td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">Voicemail PIN</th>
+			<td>{{ form.voicemail_pin }}</td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">Voicemail Delay</th>
+			<td>{{ form.voicemail_delay }}</td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">E-Mail Notify</th>
+			<td>{{ form.voicemail_emailnotify }}</td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">Telefonbuch</th>
+			<td>{{ form.phonebook }}</td>
+		</tr>
+		<tr>
+			<th align="right" valign="top">&nbsp;</th>
+			<td><input type="submit" name="submit" value="&Auml;ndern" /></td>
+		</tr>
+	</table>
+	</form>
 {% endblock %}
