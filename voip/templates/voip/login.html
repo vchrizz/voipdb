@@ -1,0 +1,57 @@
+{% extends "voip/base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+
+<center>
+{% if form.errors %}
+    <p>Your username and password didn't match. Please try again.</p>
+{% endif %}
+
+{{ state }}
+<form action="." method="post" >
+{% csrf_token %}
+{% if next %}
+<input type="hidden" name="next" value="{{ next }}" />
+{% endif %}
+<table >
+ <tr>
+  <th align="right" valign="top">Nickname</th>
+  <td >
+   <input type="text" name="username" size="20" value="{{ username }}" />
+  </td>
+ </tr>
+ <tr>
+  <th align="right" valign="top">Passwort</th>
+  <td >
+   <input type="password" name="password" size="20" value="" />
+  </td>
+ </tr>
+ <tr>
+  <th align="right" valign="top">&nbsp;</th>
+  <td >
+   <input type="submit" name="submit" value="Login" />
+  </td>
+ </tr>
+</table>
+{% comment %}
+<input type="hidden" name="_fields" value="nickname:password:submit" />
+{% endcomment %}
+</form>
+
+ <br>
+			<a href="https://marvin.funkfeuer.at/frontend_wien/index.php?section=pwdreset">forgot your password?</a>  
+
+ <br>
+
+<div style="padding: 15px; margin: 20px; border: 1px solid red; background-color: #ffcccc; font-weight: bold; display: block; width: 600px;">
+Das VOIP Service ist nicht f&uuml;r Notrufe oder andere lebenswichtige Services geeignet. 
+<p>
+Jeder Benutzer muss dieser Einschr&auml;nkung zustimmen, oder darf andernfalls das Service nicht nutzen.
+Mit dem Login wird dies als gelesen und verstanden akzeptiert.
+</div>
+
+</center>
+
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends "voip/base.html" %}
+
+{% block title %}Sipuser edit{% endblock %}
+
+{% block content %}
+
+<form action="." method="post" name="update_voip_sip_form" onsubmit="return verifyForm(this);">
+{% csrf_token %}
+<table >
+ <tr>
+  <th align="right" valign="top">Secret</th>
+  <td >
+{% if sipuser %}
+   <input type="text" name="secret" size="" value="{{ sipuser.secret }}" readonly/>
+   reset: <input type="checkbox" name="reset_pw" />
+{% else %}
+   <input type="text" name="secret" size="" value="" readonly/>
+   reset: <input type="checkbox" name="reset_pw" />
+{% endif %}
+  </td>
+ </tr>
+ <tr>
+  <th align="right" valign="top">NAT</th>
+  <td >
+{% if not sipuser.nat == "no" %}
+   <input type="checkbox" name="nat" checked="checked" />
+{% else %}
+   <input type="checkbox" name="nat" />
+{% endif %}
+  </td>
+ </tr>
+ <tr>
+  <th align="right" valign="top">DTMF Mode</th>
+  <td >
+   <select name="dtmfmode" size="1" >
+    <option {% if sipuser.dtmfmode == "auto" %}selected="selected" {% endif %}value="auto">auto</option>
+    <option {% if sipuser.dtmfmode == "inband" %}selected="selected" {% endif %}value="inband">inband</option>
+    <option {% if sipuser.dtmfmode == "rfc2833" %}selected="selected" {% endif %}value="rfc2833">rfc2833</option>
+    <option {% if sipuser.dtmfmode == "info" %}selected="selected" {% endif %}value="info">info</option>
+   </select>
+  </td>
+ </tr>
+ <tr>
+  <th align="right" valign="top">&nbsp;</th>
+  <td >
+{% if sipuser %}
+   <input type="submit" name="submit" value="&Auml;ndern" />
+{% else %}
+   <input type="submit" name="submit" value="Hinzuf&uuml;gen" />
+{% endif %}
+  </td>
+ </tr>
+</table>
+<input type="hidden" name="do" value="true" />
+<input type="hidden" name="id_voip_extensions" value="" />
+<input type="hidden" name="id" value="50" />
+<input type="hidden" name="_fields" value="do:id_voip_extensions:id:secret:nat:dtmfmode:submit" />
+</form>
+
+{% endblock %}

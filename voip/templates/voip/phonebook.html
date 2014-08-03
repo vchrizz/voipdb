@@ -1,0 +1,42 @@
+{% extends "voip/base.html" %}
+{% block title %}Telefonbuch{% endblock %}
+{% block content %}
+<script>
+$(document).ready(function() { 
+    // call the tablesorter plugin 
+    $("table").tablesorter({ 
+        // sort on the third column, order asc 
+        sortList: [[0,0]] 
+    }); 
+}); 
+</script>
+<caption>"Live"-Telefonbuch (Tabelle sortierbar)</caption>
+<table class="tablesorter">
+<thead>
+	<tr>
+		<th>Durchwahl</th>
+		<th>Vorname</th>
+		<th>Nachname</th>
+		<th>Nickname</th>
+		<th>Online Devices</th>
+	</tr>
+</thead>
+<tbody>
+{% for extension in extension_list %}
+    {% if extension.id_members.nickname %}
+	<tr>
+		<td style="text-align:center;">{{ extension.extension }}</td>
+		<td>{{ extension.id_members.firstname }}</td>
+		<td>{{ extension.id_members.lastname }}</td>
+		<td>{{ extension.id_members.nickname }}</td>
+        {% for sipuser in extension.astrt_sipusers_set.all %}
+            {% if sipuser.lastms > 0 %}
+		<td>{{ sipuser.name }} lastseen:{{ sipuser.lastms }}ms</td>
+            {% endif %}
+        {% endfor %}
+	</tr>
+    {% endif %}
+{% endfor %}
+</tbody>
+</table>
+{% endblock %}
