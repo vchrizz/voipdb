@@ -94,7 +94,12 @@ def extension_edit(request, extension_id):
             extension.save()
             return HttpResponseRedirect('/extensions/')
     else:
-        form = ExtensionEditForm()
+        form = ExtensionEditForm(initial={
+            'voicemail': extension.voicemail,
+            'voicemail_pin': extension.voicemail_pin,
+            'voicemail_delay': extension.voicemail_delay,
+            'voicemail_emailnotify': extension.voicemail_emailnotify,
+        })
     extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
     context = {'request': request, 'member': member, 'extension': extension, 'extension_list': extension_list, 'form': form}
     return render(request, 'voip/extension_edit.html', context)
@@ -155,7 +160,11 @@ def sipuser_edit(request, sipuser_id):
             sipuser.save()
             return HttpResponseRedirect('/extensions/')
     else:
-        form = SipuserEditForm()
+        form = SipuserEditForm(initial={
+            'secret': sipuser.secret,
+            'nat': sipuser.nat,
+            'dtmfmode': sipuser.dtmfmode,
+        })
     context = {'request': request, 'member': member, 'sipuser': sipuser, 'form': form}
     return render(request, 'voip/sipuser_edit.html', context)
 
