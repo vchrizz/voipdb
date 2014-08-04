@@ -3,8 +3,8 @@ from django.contrib import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
-from django.shortcuts import render
 from django.http import HttpResponseRedirect
+from django.shortcuts import render
 
 from voip.models import members, extensions, sip, astrt_sipusers
 from voip.forms import ExtensionEditForm, SipuserEditForm
@@ -81,12 +81,7 @@ def extension_add(request):
     if request.method == 'POST':
         form = ExtensionEditForm(request.POST)
         if form.is_valid():
-            from datetime import datetime
-            now = datetime.now()
-            last_month = datetime(now.year, now.month-1, 1, 0, 0, 0)
-            #extension1 = extensions.objects.filter(id_members=None).filter(changed__lt=last_month)[0]
-            #extension = extensions.objects.filter(id_members=None).order_by('extension')[5]
-            extension = extensions.objects.filter(id_members=None).order_by('extension')[5]
+            extension = extensions.objects.filter(id_members=None).order_by('-changed')[0]
             extension.id_members = members.objects.get(nickname=request.user.username)
             extension.voicemail = form.cleaned_data['voicemail']
             extension.voicemail_pin = form.cleaned_data['voicemail_pin']
