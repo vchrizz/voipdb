@@ -1,108 +1,35 @@
-{% extends "voip/base.html" %}
-
-{% block title %}Benutzerdaten{% endblock %}
-
-{% block content %}
-
-<form action="." method="post" name="update_member_form" onsubmit="return verifyForm(this);">
-{% csrf_token %}
-<table >
- <tr>
-  <th align="right" valign="top">Benutzer-ID</th>
-  <td >
-<!--   <input type="text" name="id" size="" value="{{ member.id }}" readonly/> -->
-   <input type="text" name="id" size="" value="{{ request.user.id }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Nickname</th>
-  <td >
-   <input type="text" name="nickname" size="" value="{{ member.nickname }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Passwort</th>
-  <td >
-   <input type="password" name="password" size="8" value="{{ member.password }}" readonly/>
-   repeat: <input type="password" name="password2" size="8" value="{{ member.password }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Vorname</th>
-  <td >
-   <input type="text" name="firstname" size="" value="{{ member.firstname }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Nachname</th>
-  <td >
-   <input type="text" name="lastname" size="" value="{{ member.lastname }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Strasse</th>
-  <td >
-   <input type="text" name="street" size="20" value="{{ member.street }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Hausnummer</th>
-  <td >
-   <input type="text" name="housenumber" size="20" value="{{ member.housenumber }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">PLZ</th>
-  <td >
-   <input type="text" name="zip" size="20" value="{{ member.zip }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Ort</th>
-  <td >
-   <input type="text" name="town" size="20" value="{{ member.town }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Telefon</th>
-  <td >
-   <input type="text" name="telephone" size="20" value="{{ member.telephone }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Handy</th>
-  <td >
-   <input type="text" name="mobilephone" size="20" value="{{ member.mobilephone }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Fax</th>
-  <td >
-   <input type="text" name="fax" size="20" value="{{ member.fax }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">E-Mail</th>
-  <td >
-   <input type="text" name="email" size="" value="{{ member.email }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">Homepage</th>
-  <td >
-   <input type="text" name="homepage" size="20" value="{{ member.homepage }}" readonly/>
-  </td>
- </tr>
- <tr>
-  <th align="right" valign="top">&nbsp;</th>
-  <td >
-   <input type="submit" name="submit" value="OK" />
-  </td>
- </tr>
-</table>
-<input type="hidden" name="do" value="true" />
-<input type="hidden" name="id" value="150" />
-<input type="hidden" name="_fields" value="do:id:nickname:password:firstname:lastname:street:housenumber:zip:town:telephone:mobilephone:fax:email:homepage:submit" />
-</form>
-
+{% extends "voip/base.html" %}{% block title %}Benutzerdaten{% endblock %}{% block content %}
+	Benutzerdaten in Datenbank: [<a href="https://marvin.funkfeuer.at/frontend_wien/index.php?section=member&action=update&id={{ member.id }}">Update</a>]
+	<table>
+		<tr><th align="right" valign="top">Benutzer-ID</th><td>{{ member.id }}</td><!-- request.user.id: {{ request.user.id }} --></tr>
+		<tr><th align="right" valign="top">Nickname</th><td>{{ member.nickname }}</td></tr>
+		<tr><th align="right" valign="top">Passwort</th><td>{{ member.password }}</td></tr>
+		<tr><th align="right" valign="top">Vorname</th><td>{{ member.firstname }}</td></tr>
+		<tr><th align="right" valign="top">Nachname</th><td>{{ member.lastname }}</td></tr>
+		<tr><th align="right" valign="top">Strasse</th><td>{{ member.street }}</td></tr>
+		<tr><th align="right" valign="top">Hausnummer</th><td>{{ member.housenumber }}</td></tr>
+		<tr><th align="right" valign="top">PLZ</th><td>{{ member.zip }}</td></tr>
+		<tr><th align="right" valign="top">Ort</th><td>{{ member.town }}</td></tr>
+		<tr><th align="right" valign="top">Telefon</th><td>{{ member.telephone }}</td></tr>
+		<tr><th align="right" valign="top">Handy</th><td>{{ member.mobilephone }}</td></tr>
+		<tr><th align="right" valign="top">Fax</th><td>{{ member.fax }}</td></tr>
+		<tr><th align="right" valign="top">E-Mail</th><td>{{ member.email }}</td></tr>
+		<tr><th align="right" valign="top">Homepage</th><td><a href="{{ member.homepage }}">{{ member.homepage }}</a></td></tr>
+	</table>
+<!--	<br>
+	Benutzerdaten in LDAP-Verzeichnis:
+	<table>
+		<tr><th align="right" valign="top">uid</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">givenName</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">userPassword</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">loginShell</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">uidNumber</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">gidNumber</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">homeDirectory</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">gecos</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">mail</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">l</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">telephoneNumber</th><td>&nbsp;</td>
+	</table>
+-->
 {% endblock %}

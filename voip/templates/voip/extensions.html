@@ -1,11 +1,10 @@
-{% extends "voip/base.html" %}
-{% block title %}Extensions{% endblock %}
-{% block content %}
-</script>
-<caption>VoIP [<a href="/extensions/add">hinzuf&uuml;gen</a>]</caption>
-<table>
-<thead>
-	<tr>
+{% extends "voip/base.html" %}{% block title %}Extensions{% endblock %}{% block content %}{% if form.errors %}{{ form.errors }}{% endif %}
+	<caption>VoIP [<a href="{% url extension_add %}">hinzuf&uuml;gen</a>]</caption>
+        <form action="." method="post" name="update_voip_sip_form" onsubmit="return verifyForm(this);">
+        {% csrf_token %}
+        <table>
+	<thead>
+		<tr>
 		<th>Durchwahl</th>
 		<th>Voicemail</th>
 		<th>Voicemail PIN</th>
@@ -13,104 +12,81 @@
 		<th>E-Mail Notify</th>
 		<th>Telefonbuch</th>
 		<th>L&ouml;schen</th>
-	</tr>
-</thead>
-{% if extension_list %}
-    {% for extension in extension_list %}
-<tbody>
+		</tr>
+	</thead>
+	<tbody>
+	{% for extension in extension_list %}
 	<tr>
 		<td rowspan="2"><a href="{% url extension_edit extension.id %}" style="font-size:1.5em">{{ extension.extension }}</a></td>
-{% if extension.voicemail %}
-		<td><center><input type="checkbox" disabled checked="checked"/></center></td>
-{% else %}
-		<td><center><input type="checkbox" disabled/></center></td>
-{% endif %}
-		<td>{{ extension.voicemail_pin }}</td>
-		<td>{{ extension.voicemail_delay }}</td>
-{% if extension.voicemail_emailnotify %}
-		<td><center><input type="checkbox" disabled checked="checked"/></center></td>
-{% else %}
-		<td><center><input type="checkbox" disabled/></center></td>
-{% endif %}
-{% if extension.phonebook %}
-		<td><center><input type="checkbox" disabled checked="checked"/></center></td>
-{% else %}
-		<td><center><input type="checkbox" disabled/></center></td>
-{% endif %}
+		<td><center>{{ extension.voicemail }}</center></td>
+		<td><center>{{ extension.voicemail_pin }}</center></td>
+		<td><center>{{ extension.voicemail_delay }}</center></td>
+		<td><center>{{ extension.voicemail_emailnotify }}</center></td>
+		<td><center>{{ extension.phonebook }}</center></td>
 		<td><center><a href="{% url extension_delete extension.id %}" onclick="return askDelete()">X</a></center></td>
+		</tr>
+		<tr>
+			<td colspan="9" style="background-color:#e8e8e8">
+			<table>
+			<tr>
+				<th>Login</th>
+				<th>Secret</th>
+				<th>NAT</th>
+				<th>DTMF Mode</th>
+				<th>L&ouml;schen</th>
+			</tr>
+			{% for sipuser in extension.astrt_sipusers_set.all %}
+			<tr>
+				<td><a href="{% url sipuser_edit sipuser.id %}">{{ request.user.username }}_{{ sipuser.id }}</a></td>
+				<td>{{ sipuser.secret }}</td>
+				<td><center>{{ sipuser.nat }}</center></td>
+				<td><center>{{ sipuser.dtmfmode }}</center></td>
+				<td><center><a href="{% url sipuser_delete sipuser.id %}" onclick="return askDelete()">X</a></center></td>
+			</tr>
+			{% endfor %}
+			</table>
+			<a href="{% url sipuser_add extension.id %}">add sip device</a>
+			</td>
+	</tr>
+	{% endfor %}
+	</tbody>
+	</table>
+
+	<table class=help>
+	<tr>
+		<th>Hilfe zur Einrichtung</th>
+		<th>Hilfe zur Konfiguration</th>
+		<th>Einwahlnummern</th>
 	</tr>
 	<tr>
-		<!-- span -->
-		<td colspan="9" style="background-color:#e8e8e8">
-      <table>
-	<tr>
-		<th>Login</th>
-		<th>Secret</th>
-		<th>NAT</th>
-		<th>DTMF Mode</th>
-		<th>L&ouml;schen</th>
+		<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
+			<li>Zu jeder Durchwahl muss zumindest ein 'SIP Device'(=Anmeldung) eingerichtet werden.
+			<li>Legen Sie zuerst eine Durchwahl an, klicken Sie dann auf 'add sip device'
+			<li>Jeder Apparat, Softwareclient oder Gateway braucht sein eigenes 'SIP-Device'.
+		</td>
+		<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
+			<li>SIP-Server: voip.funkfeuer.at
+			<li>Port: 5060
+			<li>User-ID: (siehe 'SIP-Devices')
+			<li>Passwort: (siehe 'SIP-Devices')
+			<br><br><b>Optionale Parameter:</b>
+			<li>Preffered Codec: G711a
+			<li>Register: YES
+			<li>NAT: YES
+			<li>STUN-Server: stun.funkfeuer.at
+		</td>
+		<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
+			<li>Intern: <b>xxxx</b>
+			<li>Extern: <br> &nbsp; <b>01/2360933/xxxx</b><br> &nbsp; <b>0720/550933/xxxx</b> 
+			<li>optional ENUM: <br> &nbsp; <b>0780/700888/xxx</b>
+			<!-- <li>Festnetz/Mobil: <b>01/302555/xxx</b> (exprimentell) -->
+		</td>
 	</tr>
-    <!-- { % for sipuser in extension.sip_set.all % } -->
-    {% for sipuser in extension.astrt_sipusers_set.all %}
-	<tr>
-		<td><a href="{% url sipuser_edit sipuser.id %}">{{ request.user.username }}_{{ sipuser.id }}</a></td>
-		<td>{{ sipuser.secret }}</td>
-{% if not sipuser.nat == "no" %}
-		<td><center><input type="checkbox" disabled checked="checked"/></center></td>
-{% else %}
-		<td><center><input type="checkbox" disabled/></center></td>
-{% endif %}
-		<td>{{ sipuser.dtmfmode }}</td>
-		<td><center><a href="{% url sipuser_delete sipuser.id %}" onclick="return askDelete()">X</a></center></td>
-	</tr>
-    {% endfor %}
-      </table>
-<a href="{% url sipuser_add extension.id %}">add sip device</a></td>
-	</tr>
-    {% endfor %}
-{% else %}
-    <p>No extensions are available.</p>
-{% endif %}
-</tbody>
-</table>
+	</table>
 
-<table class=help>
-<tr>
-	<th>Hilfe zur Einrichtung</th>
-	<th>Hilfe zur Konfiguration</th>
-	<th>Einwahlnummern</th>
-</tr>
-<tr>
-<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
-	<li>Zu jeder Durchwahl muss zumindest ein 'SIP Device'(=Anmeldung) eingerichtet werden.
-	<li>Legen Sie zuerst eine Durchwahl an, klicken Sie dann auf 'add sip device'
-	<li>Jeder Apparat, Softwareclient oder Gateway braucht sein eigenes 'SIP-Device'.
-</td>
-<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
-	<li>SIP-Server: voip.funkfeuer.at
-	<li>Port: 5060
-	<li>User-ID: (siehe 'SIP-Devices')
-	<li>Passwort: (siehe 'SIP-Devices')
-	<br><br><b>Optionale Parameter:</b>
-	<li>Preffered Codec: G711a
-	<li>Register: YES
-	<li>NAT: YES
-	<li>STUN-Server: stun.funkfeuer.at
-</td>
-<td style="width: 300px; text-align: left; vertical-align: top; padding: 15px">
-	<li>Intern: <b>1xxx</b>
-	<li>Extern: <br> &nbsp; <b>01/2360933/xxxx</b><br> &nbsp; <b>0720/550933/xxxx</b> 
-	<li>optional ENUM: <br> &nbsp; <b>0780/700888/xxx</b>
-	<!--<li>Festnetz/Mobil: <b>01/302555/xxx</b> (exprimentell) -->
-</td>
-</tr>
-</table>
-
-<div style="padding: 15px; margin: 20px; border: 1px solid red; background-color: #ffcccc; font-weight: bold; display: block; width: 600px;">
-Das VOIP Service ist nicht f&uuml;r Notrufe oder andere lebenswichtige Services geeignet. 
-<p>
-Jeder Benutzer muss dieser Einschr&auml;nkung zustimmen, oder darf andernfalls das Service nicht nutzen.
-</div>
-
-
+	<div style="padding: 15px; margin: 20px; border: 1px solid red; background-color: #ffcccc; font-weight: bold; display: block; width: 600px;">
+	Das VOIP Service ist nicht f&uuml;r Notrufe oder andere lebenswichtige Services geeignet. 
+	<p>
+	Jeder Benutzer muss dieser Einschr&auml;nkung zustimmen, oder darf andernfalls das Service nicht nutzen.
+	</div>
 {% endblock %}

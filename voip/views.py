@@ -49,7 +49,7 @@ def extensions_show(request):
     logger.debug('extension_show accessed from %s by %s' % (request.META.get('REMOTE_ADDR'),request.user.username) )
     member = members.objects.get(nickname=request.user.username)
     extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
-    context = {'request': request, 'member': member, 'extension_list': extension_list}
+    context = {'request': request, 'member': member, 'extension_list': extension_list,}
     return render(request, 'voip/extensions.html', context)
 
 @login_required
@@ -150,8 +150,6 @@ def sipuser_edit(request, sipuser_id):
         if form.is_valid():
             if form.cleaned_data['reset_pw']:
                 sipuser.secret = pwgen()
-            else:
-                sipuser.secret = sipuser.secret
             if not form.cleaned_data['nat']:
                 sipuser.nat = 'no'
             else:
@@ -160,9 +158,13 @@ def sipuser_edit(request, sipuser_id):
             sipuser.save()
             return HttpResponseRedirect('/extensions/')
     else:
+        if sipuser.nat == "no":
+            nat = False
+        else:
+            nat = True
         form = SipuserEditForm(initial={
             'secret': sipuser.secret,
-            'nat': sipuser.nat,
+            'nat': nat,
             'dtmfmode': sipuser.dtmfmode,
         })
     context = {'request': request, 'member': member, 'sipuser': sipuser, 'form': form}
