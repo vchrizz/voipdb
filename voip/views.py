@@ -125,7 +125,6 @@ def extension_edit(request, extension_id):
 def extension_delete(request, extension_id):
     extension = extensions.objects.get(id=extension_id)
     logger.debug('extension_delete(%s) accessed from %s by %s' % (extension.extension,request.META.get('REMOTE_ADDR'),request.user.username) )
-    extension = extensions.objects.get(id=extension_id)
     if not extension.astrt_sipusers_set.exists():
         extension.id_members = None
         extension.voicemail = False
@@ -134,7 +133,12 @@ def extension_delete(request, extension_id):
         extension.emailnotify = False
         extension.phonebook = False
         extension.save()
-    return HttpResponseRedirect('/extensions/')
+#    else:
+    member = members.objects.get(nickname=request.user.username)
+    extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
+    context = {'request': request, 'member': member, 'extension_list': extension_list,}
+    return render(request, 'voip/extensions.html', context)
+#    return HttpResponseRedirect('/extensions/')
 
 @login_required
 @transaction.commit_manually
@@ -193,37 +197,3 @@ def sipuser_delete(request, sipuser_id):
     sipuser = astrt_sipusers.objects.get(id=sipuser_id)
     sipuser.delete()
     return HttpResponseRedirect('/extensions/')
-
-# old code, will be deleted soon
-def index_old(request):
-    c = {}
-    c.update(csrf(request))
-    state = "Please log in below..."
-    username = password = ''
-    if request.GET.get('id_members'):
-      u = members.objects.get(id=request.GET.get('id_members'))
-      username = u.nickname
-    if request.POST:
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        logger.debug("user tries to log in: %s" % username)
-        user = auth.authenticate(username=username, password=password)
-        if user is not None:
-          logger.debug("user authenticated: %s" % user.username)
-          if user.is_active:
-              auth.login(request, user)
-              logger.debug("user logged in: %s" % user.username)
-              #extension_list = extensions.objects.filter(id_members="150").order_by('extension')
-              member = members.objects.get(nickname=user.username)
-              extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
-              context = {'extension_list': extension_list}
-              return render(request, 'voip/extensions.html', context)
-          else:
-              state = "Your account is not active, please contact the site admin."
-        else:
-          state = "Your username and/or password were incorrect."
-
-    #return render_to_response('voip/index.html',{'c':c, 'state':state, 'username': username})
-    return render(request, 'voip/index.html',{'c':c, 'state':state, 'username': username})
-
