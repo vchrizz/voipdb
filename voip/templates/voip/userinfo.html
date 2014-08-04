@@ -1,7 +1,7 @@
 {% extends "voip/base.html" %}{% block title %}Benutzerdaten{% endblock %}{% block content %}
 	Benutzerdaten in Datenbank: [<a href="https://marvin.funkfeuer.at/frontend_wien/index.php?section=member&action=update&id={{ member.id }}">Update</a>]
 	<table>
-		<tr><th align="right" valign="top">Benutzer-ID</th><td>{{ member.id }}</td><!-- request.user.id: {{ request.user.id }} --></tr>
+		<tr><th align="right" valign="top">Benutzer-ID</th><td>{{ request.user.fonetrix }}</td><!-- request.user.id: {{ request.user.id }} - member.id: {{ member.id }} --></tr>
 		<tr><th align="right" valign="top">Nickname</th><td>{{ member.nickname }}</td></tr>
 		<tr><th align="right" valign="top">Passwort</th><td>{{ member.password }}</td></tr>
 		<tr><th align="right" valign="top">Vorname</th><td>{{ member.firstname }}</td></tr>

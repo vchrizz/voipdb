@@ -29,10 +29,32 @@ def index(request):
     context = {'request': request, 'member': member}
     return render(request, 'voip/index.html', context)
 
+def get_or_create_user(username, password):
+    import ldap
+    AD_DNS_NAME ='ldap.funkfeuer.at';
+    AD_LDAP_PORT = 636
+    AD_LDAP_URL = 'ldaps://%s' % AD_DNS_NAME;
+    AD_NT4_DOMAIN = 'funkfeuer.at';
+    # init
+    l = ldap.initialize(AD_LDAP_URL)
+    l.set_option(ldap.OPT_PROTOCOL_VERSION, 3)
+    # bind
+    binddn = "%s@%s" % (username,AD_NT4_DOMAIN)
+    l.bind_s(binddn,password)
+    # search
+    result = l.search_ext_s(AD_SEARCH_DN,ldap.SCOPE_SUBTREE,"sAMAccountName=%s" % username,AD_SEARCH_FIELDS)[0][1]
+    return result
+
 @login_required
 def userinfo(request):
     logger.debug('userinfo accessed from %s by %s' % (request.META.get('REMOTE_ADDR'),request.user.username) )
     member = members.objects.get(nickname=request.user.username)
+
+    #foo = get_or_create_user('christoph', 'changeme')
+    #if result.has_key('mail'):
+    #    smtpmail = result['mail'][0]
+    #return HttpResponseRedirect('/extensions/%s' % smtpmail)
+
     context = {'request': request, 'member': member}
     return render(request, 'voip/userinfo.html', context)
 
