@@ -133,12 +133,14 @@ def extension_delete(request, extension_id):
         extension.emailnotify = False
         extension.phonebook = False
         extension.save()
-#    else:
-    member = members.objects.get(nickname=request.user.username)
-    extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
-    context = {'request': request, 'member': member, 'extension_list': extension_list,}
-    return render(request, 'voip/extensions.html', context)
-#    return HttpResponseRedirect('/extensions/')
+        return HttpResponseRedirect('/extensions/')
+    else:
+      #error = "Kann Durchwahl %s nicht entfernen, da noch %s sip devices vorhanden sind." % (extension.extension,extension.sip_set.count())
+      error = "Kann Durchwahl %s nicht entfernen, da noch sip devices vorhanden sind." % extension.extension
+      member = members.objects.get(nickname=request.user.username)
+      extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
+      context = {'request': request, 'member': member, 'extension_list': extension_list, 'error': error,}
+      return render(request, 'voip/extensions.html', context)
 
 @login_required
 @transaction.commit_manually

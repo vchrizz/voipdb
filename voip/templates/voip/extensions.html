@@ -1,5 +1,6 @@
 {% extends "voip/base.html" %}{% block title %}Extensions{% endblock %}{% block content %}{% if form.errors %}{{ form.errors }}{% endif %}
 	<caption>VoIP [<a href="{% url extension_add %}">hinzuf&uuml;gen</a>]</caption>
+        {% if error %}<ul><li>{{ error }}</ul>{% endif %}
         <form action="." method="post" name="update_voip_sip_form" onsubmit="return verifyForm(this);">
         {% csrf_token %}
         <table>
