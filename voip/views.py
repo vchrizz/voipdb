@@ -135,8 +135,7 @@ def extension_delete(request, extension_id):
         extension.save()
         return HttpResponseRedirect('/extensions/')
     else:
-      #error = "Kann Durchwahl %s nicht entfernen, da noch %s sip devices vorhanden sind." % (extension.extension,extension.sip_set.count())
-      error = "Kann Durchwahl %s nicht entfernen, da noch sip devices vorhanden sind." % extension.extension
+      error = "Kann Durchwahl %s nicht entfernen, da noch %s SIP Devices vorhanden sind." % (extension.extension,extension.astrt_sipusers_set.count())
       member = members.objects.get(nickname=request.user.username)
       extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
       context = {'request': request, 'member': member, 'extension_list': extension_list, 'error': error,}
