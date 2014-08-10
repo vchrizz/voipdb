@@ -7,7 +7,6 @@ class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User)
     # Other fields here
-    dn = models.CharField(max_length=254)
     uid = models.CharField(max_length=254)
     cn = models.CharField(max_length=254)
     sn = models.CharField(max_length=254)
