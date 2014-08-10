@@ -31,9 +31,13 @@
 			<table>
 			<tr>
 				<th>Login</th>
-				<th>Secret</th>
+				<th>Passwort</th>
 				<th>NAT</th>
-				<th>DTMF Mode</th>
+				<th>DTMF Modus</th>
+				<th>IP-Addresse</th>
+				<th>Lastseen</th>
+				<th>UserAgent</th>
+				<th>Kommentar</th>
 				<th>L&ouml;schen</th>
 			</tr>
 			{% for sipuser in extension.astrt_sipusers_set.all %}
@@ -42,6 +46,10 @@
 				<td>{{ sipuser.secret }}</td>
 				<td><center>{{ sipuser.nat }}</center></td>
 				<td><center>{{ sipuser.dtmfmode }}</center></td>
+				<td><center>{{ sipuser.ipaddr }}</center></td>
+				<td><center>{{ sipuser.lastms }}ms</center></td>
+				<td><center>{{ sipuser.useragent }}</center></td>
+				<td><center>{{ sipuser.comment }}</center></td>
 				<td><center><a href="{% url sipuser_delete sipuser.id %}" onclick="return askDelete()">X</a></center></td>
 			</tr>
 			{% endfor %}

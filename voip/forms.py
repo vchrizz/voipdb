@@ -9,7 +9,7 @@ class ExtensionEditForm(forms.Form):
 
 class SipuserEditForm(forms.Form):
     reset_pw = forms.BooleanField(label='Reset Password', required=False, )
-    #secret = forms.CharField(label='Secret', min_length=16, max_length=16)
+    #secret = forms.CharField(label='Passwort', min_length=16, max_length=16)
     nat = forms.BooleanField(label='NAT', required=False, )
     CHOICES = (
         ('auto', 'Auto'),
@@ -18,3 +18,4 @@ class SipuserEditForm(forms.Form):
         ('info','INFO'),
     )
     dtmfmode = forms.ChoiceField(choices=CHOICES, required=True, label='DTMF Mode')
+    comment = forms.CharField(label='Kommentar', required=False, min_length=0, max_length=160)

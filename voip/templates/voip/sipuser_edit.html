@@ -3,16 +3,32 @@
         {% csrf_token %}
         <table>
                 <tr>
-                        <th align="right" valign="top">Secret<br><input type="checkbox" name="reset_pw" />reset</th>
+                        <th align="right" valign="top">Passwort<br><input type="checkbox" name="reset_pw" />reset</th>
                         <td>{{ sipuser.secret }}</td>
+                </tr>
+                <tr>
+                        <th align="right" valign="top">UserAgent</th>
+                        <td>{{ sipuser.useragent }}</td>
+                </tr>
+                <tr>
+                        <th align="right" valign="top">IP-Adresse</th>
+                        <td>{{ sipuser.ipaddr }}</td>
+                </tr>
+                <tr>
+                        <th align="right" valign="top">Lastseen</th>
+                        <td>{{ sipuser.lastms }}ms</td>
                 </tr>
                 <tr>
                         <th align="right" valign="top">NAT</th>
                         <td>{{ form.nat }}</td>
                 </tr>
                 <tr>
-                        <th align="right" valign="top">DTMF Mode</th>
+                        <th align="right" valign="top">DTMF Modus</th>
                         <td>{{ form.dtmfmode }}</td>
+                </tr>
+                <tr>
+                        <th align="right" valign="top">Kommentar</th>
+                        <td>{{ form.comment }}</td>
                 </tr>
                 <tr>
                         <th align="right" valign="top">&nbsp;</th>

@@ -173,5 +173,6 @@ class astrt_sipusers(models.Model):
     # phonenumberid = models.BigIntegerField()
     phonenumberid = models.ForeignKey(extensions,null=True,db_column="phonenumberid")
     outbound_phonenumberid = models.BigIntegerField(default=1)
+    comment = models.CharField(max_length=160, null=True)
     class Meta:
         db_table = "astrt_sipusers"

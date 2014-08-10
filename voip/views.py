@@ -162,6 +162,7 @@ def sipuser_edit(request, sipuser_id):
             else:
                 sipuser.nat = 'force_rport,comedia'
             sipuser.dtmfmode = form.cleaned_data['dtmfmode']
+            sipuser.comment = form.cleaned_data['comment']
             sipuser.save()
             return HttpResponseRedirect('/extensions/')
     else:
