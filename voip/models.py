@@ -1,5 +1,37 @@
 from django.db import models
 
+from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+
+class UserProfile(models.Model):
+    # This field is required.
+    user = models.OneToOneField(User)
+    # Other fields here
+    dn = models.CharField(max_length=254)
+    uid = models.CharField(max_length=254)
+    cn = models.CharField(max_length=254)
+    sn = models.CharField(max_length=254)
+    givenName = models.CharField(max_length=254)
+    userPassword = models.CharField(max_length=254)
+    shadowLastChange = models.IntegerField(null=True)
+    shadowMax = models.IntegerField(null=True)
+    shadowWarning = models.IntegerField(null=True)
+    loginShell = models.CharField(max_length=254)
+    uidNumber = models.IntegerField(null=True)
+    gidNumber = models.IntegerField(null=True)
+    homeDirectory = models.CharField(max_length=254)
+    gecos = models.CharField(max_length=254)
+    mail = models.EmailField(max_length=254)
+    l = models.CharField(max_length=254)
+    telephoneNumber = models.CharField(max_length=254)
+
+def create_user_profile(sender, instance, created, **kwargs):
+    #if created:
+    #    UserProfile.objects.create(user=instance)
+    UserProfile.objects.get_or_create(user=instance)
+
+post_save.connect(create_user_profile, sender=User)
+
 class members(models.Model):
     # First things first - wherever you have a model with a primary key named "id", just delete it.
     # Django already assumes that your table has an "id" column and defaults to an automatic primary key field - you don't need to define it in the class.

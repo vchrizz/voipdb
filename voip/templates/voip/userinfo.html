@@ -16,21 +16,24 @@
 		<tr><th align="right" valign="top">E-Mail</th><td>{{ member.email }}</td></tr>
 		<tr><th align="right" valign="top">Homepage</th><td><a href="{{ member.homepage }}">{{ member.homepage }}</a></td></tr>
 	</table>
-	<br>foo: {{ foo }}
-<!--	<br>
-	Benutzerdaten in LDAP-Verzeichnis:
+	<br>
+	Benutzerdaten in LDAP-Verzeichnis: {{ ldapuser.dn }}
 	<table>
-		<tr><th align="right" valign="top">uid</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">givenName</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">userPassword</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">loginShell</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">uidNumber</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">gidNumber</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">homeDirectory</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">gecos</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">mail</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">l</th><td>&nbsp;</td>
-		<tr><th align="right" valign="top">telephoneNumber</th><td>&nbsp;</td>
+		<tr><th align="right" valign="top">uid</th><td>{{ ldapuser.uid }}</td>
+		<tr><th align="right" valign="top">cn</th><td>{{ ldapuser.cn }}</td>
+		<tr><th align="right" valign="top">sn</th><td>{{ ldapuser.sn }}</td>
+		<tr><th align="right" valign="top">givenName</th><td>{{ ldapuser.givenName }}</td>
+		<tr><th align="right" valign="top">userPassword</th><td>{{ ldapuser.userPassword }}</td>
+		<tr><th align="right" valign="top">shadowLastChange</th><td>{{ ldapuser.shadowLastChange }}</td>
+		<tr><th align="right" valign="top">shadowMax</th><td>{{ ldapuser.shadowMax }}</td>
+		<tr><th align="right" valign="top">shadowWarning</th><td>{{ ldapuser.shadowWarning }}</td>
+		<tr><th align="right" valign="top">loginShell</th><td>{{ ldapuser.loginShell }}</td>
+		<tr><th align="right" valign="top">uidNumber</th><td>{{ ldapuser.uidNumber }}</td>
+		<tr><th align="right" valign="top">gidNumber</th><td>{{ ldapuser.gidNumber }}</td>
+		<tr><th align="right" valign="top">homeDirectory</th><td>{{ ldapuser.homeDirectory }}</td>
+		<tr><th align="right" valign="top">gecos</th><td>{{ ldapuser.gecos }}</td>
+		<tr><th align="right" valign="top">mail</th><td>{{ ldapuser.mail }}</td>
+		<tr><th align="right" valign="top">l</th><td>{{ ldapuser.l }}</td>
+		<tr><th align="right" valign="top">telephoneNumber</th><td>{{ ldapuser.telephoneNumber }}</td>
 	</table>
--->
 {% endblock %}

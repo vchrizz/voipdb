@@ -1,12 +1,10 @@
 from django.db import transaction
 #from django.contrib import auth
-#from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-#from django.core.context_processors import csrf
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
-from voip.models import members, extensions, sip, astrt_sipusers
+from voip.models import members, extensions, sip, astrt_sipusers, UserProfile
 from voip.forms import ExtensionEditForm, SipuserEditForm
 
 import logging
@@ -33,19 +31,11 @@ def index(request):
 def userinfo(request):
     logger.debug('userinfo accessed from %s by %s' % (request.META.get('REMOTE_ADDR'),request.user.username) )
     member = members.objects.get(nickname=request.user.username)
-
-    foo = "test"
-    ##from django_auth_ldap.backend import LDAPBackend
-    ##usermodel = LDAPBackend().get_user_model()
-    ##user = LDAPBackend().populate_user(request.user.username)
-    ##foo = usermodel.ldap_user
-
-    #foo = usermodel.get_full_name(usermodel)
-    #user = LDAPBackend().populate_user('member.nickname')
-    #if user is None:
-    #    raise Exception('No user named %s' % member.nickname)
-
-    context = {'request': request, 'member': member, 'foo': foo}
+    try:
+        ldapuserprofile = UserProfile.objects.get(uid=request.user.username)
+    except UserProfile.DoesNotExist:
+        return HttpResponseRedirect('/login/')
+    context = {'request': request, 'member': member, 'ldapuser': ldapuserprofile,}
     return render(request, 'voip/userinfo.html', context)
 
 @login_required
