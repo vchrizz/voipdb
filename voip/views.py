@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
+from datetime import datetime 
+
 from voip.models import members, extensions, sip, astrt_sipusers, UserProfile
 from voip.forms import ExtensionEditForm, SipuserEditForm
 
@@ -68,6 +70,8 @@ def extension_add(request):
             extension.voicemail_delay = form.cleaned_data['voicemail_delay']
             extension.voicemail_emailnotify = form.cleaned_data['voicemail_emailnotify']
             extension.phonebook = form.cleaned_data['phonebook']
+            extension.created = datetime.now()
+            extension.changed = datetime.now()
             extension.save()
             return HttpResponseRedirect('/extensions/')
     else:
@@ -89,6 +93,7 @@ def extension_edit(request, extension_id):
                 extension.voicemail_delay = form.cleaned_data['voicemail_delay']
                 extension.voicemail_emailnotify = form.cleaned_data['voicemail_emailnotify']
                 extension.phonebook = form.cleaned_data['phonebook']
+                extension.changed = datetime.now()
                 extension.save()
                 return HttpResponseRedirect('/extensions/')
         else:
@@ -115,6 +120,7 @@ def extension_delete(request, extension_id):
             extension.voicemail_delay = 15
             extension.emailnotify = False
             extension.phonebook = False
+            extension.changed = datetime.now()
             extension.save()
             return HttpResponseRedirect('/extensions/')
         else:
@@ -127,7 +133,7 @@ def extension_delete(request, extension_id):
 @login_required
 @transaction.commit_manually
 def sipuser_add(request, extension_id):
-    logger.debug('sipuser_add on extension %s accessed from %s by %s' % (extension_id, request.META.get('REMOTE_ADDR'), request.user.username) )
+    logger.debug('sipuser_add on extension_id %s accessed from %s by %s' % (extension_id, request.META.get('REMOTE_ADDR'), request.user.username) )
     member = members.objects.get(nickname=request.user.username)
     extension = extensions.objects.get(id=extension_id)
     nickname = request.user.username
@@ -163,6 +169,7 @@ def sipuser_edit(request, sipuser_id):
                 sipuser.nat = 'force_rport,comedia'
             sipuser.dtmfmode = form.cleaned_data['dtmfmode']
             sipuser.comment = form.cleaned_data['comment']
+            sipuser.changed = datetime.now()
             sipuser.save()
             return HttpResponseRedirect('/extensions/')
     else:
