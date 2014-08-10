@@ -174,6 +174,7 @@ def sipuser_edit(request, sipuser_id):
             'secret': sipuser.secret,
             'nat': nat,
             'dtmfmode': sipuser.dtmfmode,
+            'comment': sipuser.comment,
         })
     context = {'request': request, 'member': member, 'sipuser': sipuser, 'form': form}
     return render(request, 'voip/sipuser_edit.html', context)
