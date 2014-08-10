@@ -102,6 +102,7 @@ def extension_edit(request, extension_id):
                 'voicemail_pin': extension.voicemail_pin,
                 'voicemail_delay': extension.voicemail_delay,
                 'voicemail_emailnotify': extension.voicemail_emailnotify,
+                'phonebook': extension.phonebook,
             })
     extension_list = extensions.objects.filter(id_members=member.id).order_by('extension')
     context = {'request': request, 'member': member, 'extension': extension, 'extension_list': extension_list, 'form': form}

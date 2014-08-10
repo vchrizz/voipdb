@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 
+from datetime import datetime
+
 class UserProfile(models.Model):
     # This field is required.
     user = models.OneToOneField(User)
@@ -23,6 +25,8 @@ class UserProfile(models.Model):
     mail = models.EmailField(max_length=254)
     l = models.CharField(max_length=254)
     telephoneNumber = models.CharField(max_length=254)
+    created = models.DateTimeField('date created',default=datetime.now())
+    changed = models.DateTimeField('date changed')
 
 def create_user_profile(sender, instance, created, **kwargs):
     #if created:
@@ -173,6 +177,8 @@ class astrt_sipusers(models.Model):
     # phonenumberid = models.BigIntegerField()
     phonenumberid = models.ForeignKey(extensions,null=True,db_column="phonenumberid")
     outbound_phonenumberid = models.BigIntegerField(default=1)
+    created = models.DateTimeField('date created')
+    changed = models.DateTimeField('date changed')
     comment = models.CharField(max_length=160, null=True)
     class Meta:
         db_table = "astrt_sipusers"
