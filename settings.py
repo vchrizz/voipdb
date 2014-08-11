@@ -24,6 +24,7 @@ MANAGERS = ADMINS
 #        'PORT': '',                                         # Set to empty string for default. Not used with sqlite3.
 #     }
 #}
+# these settings live in databases.py which is on .gitignore list for security reasons
 from databases import *
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
