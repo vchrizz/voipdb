@@ -1,4 +1,5 @@
 {% extends "voip/base.html" %}{% block title %}Extensions{% endblock %}{% block content %}{% if form.errors %}{{ form.errors }}{% endif %}
+	<br>
 	<caption>VoIP [<a href="{% url extension_add %}">hinzuf&uuml;gen</a>]</caption>
         {% if error %}<ul><li>{{ error }}</ul>{% endif %}
         <form action="." method="post" name="update_voip_sip_form" onsubmit="return verifyForm(this);">
@@ -12,8 +13,8 @@
 		<th>Voicemail Delay</th>
 		<th>E-Mail Notify</th>
 		<th>Telefonbuch</th>
-		<th>Erstellt</th>
-		<th>Ge&auml;ndert</th>
+<!--		<th>Erstellt</th>
+		<th>Ge&auml;ndert</th>-->
 		<th>L&ouml;schen</th>
 		</tr>
 	</thead>
@@ -26,8 +27,8 @@
 		<td><center>{{ extension.voicemail_delay }}</center></td>
 		<td><center>{{ extension.voicemail_emailnotify }}</center></td>
 		<td><center>{{ extension.phonebook }}</center></td>
-		<td><center>{{ extension.created }}</center></td>
-		<td><center>{{ extension.changed }}</center></td>
+<!--		<td><center>{{ extension.created }}</center></td>
+		<td><center>{{ extension.changed }}</center></td>-->
 		<td><center><a href="{% url extension_delete extension.id %}" onclick="return askDelete()">X</a></center></td>
 		</tr>
 		<tr>
@@ -41,8 +42,8 @@
 				<th>IP-Addresse</th>
 				<th>Lastseen</th>
 				<th>UserAgent</th>
-				<th>Erstellt</th>
-				<th>Ge&auml;ndert</th>
+<!--				<th>Erstellt</th>
+				<th>Ge&auml;ndert</th>-->
 				<th>Kommentar</th>
 				<th>L&ouml;schen</th>
 			</tr>
@@ -55,8 +56,8 @@
 				<td><center>{{ sipuser.ipaddr }}</center></td>
 				<td><center>{{ sipuser.lastms }}ms</center></td>
 				<td><center>{{ sipuser.useragent }}</center></td>
-				<td><center>{{ sipuser.created }}</center></td>
-				<td><center>{{ sipuser.changed }}</center></td>
+<!--				<td><center>{{ sipuser.created }}</center></td>
+				<td><center>{{ sipuser.changed }}</center></td>-->
 				<td><center>{{ sipuser.comment }}</center></td>
 				<td><center><a href="{% url sipuser_delete sipuser.id %}" onclick="return askDelete()">X</a></center></td>
 			</tr>

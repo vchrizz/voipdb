@@ -1,9 +1,4 @@
-{% extends "voip/base.html" %}
-
-{% block title %}Login{% endblock %}
-
-{% block content %}
-
+{% extends "voip/base.html" %}{% block title %}Login{% endblock %}{% block content %}{% load static %}
 <center>
 {% if form.errors %}
     <p>Your username and password didn't match. Please try again.</p>
@@ -15,22 +10,24 @@
 {% if next %}
 <input type="hidden" name="next" value="{{ next }}" />
 {% endif %}
-<table >
+<table>
  <tr>
+  <td rowspan="3" style="background-color:#fff; width:108px; height:80px;"><img src="{% get_static_prefix %}voip/img/OxFF_and_character.jpg" width="108px" height="80px"></td>
   <th align="right" valign="top">Nickname</th>
-  <td >
+  <td>
    <input type="text" name="username" size="20" value="{{ username }}" />
   </td>
+  <td rowspan="3" style="background-color:#fff; width:205px; height:64px;"><img src="{% get_static_prefix %}voip/img/logo_mascotte.jpg" width="205px" height="64px"></td>
  </tr>
  <tr>
   <th align="right" valign="top">Passwort</th>
-  <td >
+  <td>
    <input type="password" name="password" size="20" value="" />
   </td>
  </tr>
  <tr>
   <th align="right" valign="top">&nbsp;</th>
-  <td >
+  <td>
    <input type="submit" name="submit" value="Login" />
   </td>
  </tr>

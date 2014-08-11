@@ -13,16 +13,16 @@ import logging
 #logger = logging.getLogger(__name__)
 logger = logging.getLogger('django.request')
 
-if DEBUG:
-    import logging, logging.handlers
-    logfile = "/tmp/django-ldap-debug.log"
-    my_logger = logging.getLogger('django_auth_ldap')
-    my_logger.setLevel(logging.DEBUG)
+#if DEBUG:
+import logging, logging.handlers
+logfile = "/tmp/django-ldap-debug.log"
+my_logger = logging.getLogger('django_auth_ldap')
+my_logger.setLevel(logging.DEBUG)
  
-    handler = logging.handlers.RotatingFileHandler(
-       logfile, maxBytes=1024 * 500, backupCount=5)
- 
-    my_logger.addHandler(handler)
+handler = logging.handlers.RotatingFileHandler(
+    logfile, maxBytes=1024 * 500, backupCount=5)
+
+my_logger.addHandler(handler)
 
 import random
 def pwgen(size=16):
@@ -155,12 +155,12 @@ def sipuser_add(request, extension_id):
         secret = pwgen()
         cursor.execute("SELECT func_create_sipuser('%s','%s',%s)" % (nickname, secret, extension_id) )
         ret = cursor.fetchone()
-        logger.debug("extension_id: %s - stored procedure 'func_create_sipuser' returned: %s" % (extension_id, ret) )
+        logger.debug("created extension_id: %s - stored procedure 'func_create_sipuser' returned: %s" % (extension_id, ret) )
         pin = 1234
         timeout = 15
         cursor.execute("SELECT func_create_voicemail_from_phonenumberid(%s,'%s',%s)" % (extension_id, pin, timeout) )
         ret = cursor.fetchone()
-        logger.debug("stored procedure 'func_create_voicemail' returned: %s" % ret)
+        logger.debug("created voicemail for extension_id %s - stored procedure 'func_create_voicemail' returned: %s" % (extension_id, ret) )
         cursor.close() # is this needed and/or on the right position called?
         connection.commit()
     return HttpResponseRedirect('/extensions/')
