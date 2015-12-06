@@ -1,2 +1,2 @@
 # voipdb
-Webfrontend for Funkfeuer VoIP Service
+Webfrontend for Funkfeuer.at VoIP Service
